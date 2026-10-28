@@ -12,11 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print fixture marker
-        run: echo "fixture-log-marker: osprey-58"
+        run: |
+          echo "fixture-log-marker: osprey-58"
       - name: Post fixture status
         if: github.event_name == 'pull_request'
         env:
           GH_TOKEN: ${{ github.token }}
-        run: >
-          gh api repos/${{ github.repository }}/statuses/${{ github.event.pull_request.head.sha }}
-          -f state=success -f context=fixture/check -f description="fixture status ok"
+        run: |
+          gh api "repos/${{ github.repository }}/statuses/${{ github.event.pull_request.head.sha }}" -f state=success -f context=fixture/check -f description="fixture status ok"
